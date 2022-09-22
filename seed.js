@@ -4,7 +4,10 @@ const {
 
 // creating a seed function to create some model instances for our db
 const seedDb = async()=>{
+    // clearing the database
     await db.sync({force:true,logging:false});
+
+    // making a few Category instances
     const coding = await Category.create({
         name: "coding"
     });
@@ -15,6 +18,7 @@ const seedDb = async()=>{
         name:'jobs'
     });
 
+    // making a few Bookmark instances
     await Bookmark.create({
         name: 'Google',
         url: 'https://www.google.com/',
