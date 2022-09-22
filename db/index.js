@@ -1,6 +1,7 @@
-const Sequelize = require('sequelize');
-const db = new Sequelize('postgres://localhost:5432/bookmarker');
+const Sequelize = require('sequelize'); // importing Sequelize ORM
+const db = new Sequelize('postgres://localhost:5432/bookmarker'); // URL path to our db
 
+// defining the Bookmark db model
 const Bookmark = db.define('bookmark', {
     name: {
         type: Sequelize.STRING,
@@ -12,6 +13,7 @@ const Bookmark = db.define('bookmark', {
     }
 });
 
+// defining the Category db model
 const Category = db.define('category', {
     name: {
         type: Sequelize.STRING,
@@ -19,6 +21,7 @@ const Category = db.define('category', {
     }
 });
 
+// defining the relationship between Bookmark and Category to be 'one to many'
 Category.hasMany(Bookmark);
 Bookmark.belongsTo(Category);
 

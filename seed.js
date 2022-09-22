@@ -2,6 +2,7 @@ const {
     db,Boomkark,Category, Bookmark
 } = require('./db');
 
+// creating a seed function to create some model instances for our db
 const seedDb = async()=>{
     await db.sync({force:true,logging:false});
     const coding = await Category.create({
@@ -53,44 +54,3 @@ const seedDb = async()=>{
 };
 
 seedDb();
-
-/*
-Categories:
-
-coding
-search
-jobs
-Bookmarks:
-
-Google
-name: Google
-url: https://www.google.com/
-category: search
-
-Stack Overflow
-name: Stack Overflow
-url: https://stackoverflow.com/
-category: code
-
-Bing
-name: Bing
-url: https://www.bing.com/
-category: search
-
-LinkedIn
-name: LinkedIn
-url: https://www.linkedin.com/
-category: jobs
-
-Indeed
-name: Indeed
-url: https://www.indeed.com/
-category: jobs
-
-MDN
-name: MDN
-url: https://developer.mozilla.org/en-US/
-category: code
-
-
-*/
