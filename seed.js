@@ -3,7 +3,10 @@ const {
 } = require('./db');
 
 const seedDb = async()=>{
+    // clearing the database
     await db.sync({force:true,logging:false});
+
+    // making a few Category instances
     const coding = await Category.create({
         name: "coding"
     });
@@ -14,6 +17,7 @@ const seedDb = async()=>{
         name:'jobs'
     });
 
+    // making a few Bookmark instances
     await Bookmark.create({
         name: 'Google',
         url: 'https://www.google.com/',
@@ -53,44 +57,3 @@ const seedDb = async()=>{
 };
 
 seedDb();
-
-/*
-Categories:
-
-coding
-search
-jobs
-Bookmarks:
-
-Google
-name: Google
-url: https://www.google.com/
-category: search
-
-Stack Overflow
-name: Stack Overflow
-url: https://stackoverflow.com/
-category: code
-
-Bing
-name: Bing
-url: https://www.bing.com/
-category: search
-
-LinkedIn
-name: LinkedIn
-url: https://www.linkedin.com/
-category: jobs
-
-Indeed
-name: Indeed
-url: https://www.indeed.com/
-category: jobs
-
-MDN
-name: MDN
-url: https://developer.mozilla.org/en-US/
-category: code
-
-
-*/
