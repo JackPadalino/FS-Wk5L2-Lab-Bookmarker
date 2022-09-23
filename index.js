@@ -22,6 +22,7 @@ app.get("/bookmarks", async (req, res, next) => {
     const bookmarks = await Bookmark.findAll({
         include:[Category]
     });
+    
     res.send(bookmarkViews.listAllBookmarks(bookmarks));
 });
 
@@ -46,8 +47,9 @@ app.get("/categories/:id", async (req,res,next)=>{
     }
 });
 
-app.get("/createbookmark", (req, res) => {
-    res.send(bookmarkViews.createBookmark());
+app.get("/createbookmark", async(req, res) => {
+    const categories = await Category.findAll();
+    res.send(bookmarkViews.createBookmark(categories));
 });
 
 app.post("/postbookmark", async (req,res,next)=>{
@@ -87,6 +89,14 @@ app.get("/categories", async (req, res, next) => {
 app.get("/createcategory", (req, res) => {
     res.send(categoryViews.createCategory());
 });
+
+app.post("/postcategory",async(req,res,next)=>{
+    const categoryName = req.body.category;
+    await Category.create({
+        name:categoryName
+    })
+    res.redirect('/createbookmark');
+})
 
 const PORT = 3000;
 

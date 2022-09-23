@@ -9,14 +9,14 @@ function listAllBookmarks(bookmarks){
 </head>
 <body>
     <h1>All bookmarks</h1>
-    <small><a href="/create">Add new bookmark</a></small>
+    <small><a href="/createbookmark">Add new bookmark</a></small>
     <div>
-    ${bookmarks.map((bookmark) =>
+    ${bookmarks.map((bookmark)=>
         `
         <h2>${bookmark.name} - ${bookmark.category.name}</h2>
         <a href='${bookmark.url}'><p>${bookmark.url}</p></a>
         `
-        )}
+    )}
     </div>
 </body>
 </html>
@@ -38,14 +38,14 @@ function bookmarksByCategory(bookmarks,catName){
         <h2>${bookmark.name}</h2>
         <a href='${bookmark.url}'><p>${bookmark.url}</p></a>
         `
-        )}
+    )}
     </div>
 </body>
 </html>
 `
 };
 
-function createBookmark(){
+function createBookmark(categories){
     return html`
 <!DOCTYPE html>
 <html>
@@ -53,15 +53,22 @@ function createBookmark(){
 </head>
 <body>
     <div>
-        <form method="post" action="/post">
+        <form method="post" action="/postbookmark">
             <label for="name">Name</label>
             <input type="text" name="name" />
             <label for="url">URL</label>
             <input type="text" name="url" />
             <label for="category">Category</label>
-            <input type="text" name="category" />
+            <select id="select" name="category">
+                ${categories.map((category) =>
+                    `
+                    <option value="${category.name}">${category.name}</option>
+                    `
+                )}
+            </select>
             <button type="submit">Submit</button>
         </form>
+        <a href="/createcategory">Add new category</a>
     </div>
 </body>
 </html>`;

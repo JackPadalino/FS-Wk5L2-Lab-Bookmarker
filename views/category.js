@@ -12,8 +12,7 @@ function listAllCategories(categories){
         <div id="mainContainer">
         <h1 id="mainTitle">Songs</h1>
         <div id='songListContainer'>
-            ${categories.map(
-            (category) =>
+            ${categories.map((category) =>
                 `
                 <h1>${category.name}</h1>
                 `
@@ -25,6 +24,25 @@ function listAllCategories(categories){
     `
 };
 
+function createCategory(){
+    return html`
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <div>
+        <form method="post" action="/postcategory">
+            <label for="category">New category</label>
+            <input type="text" name="category" />
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>`;
+};
+
 module.exports = {
-    listAllCategories:listAllCategories
+    listAllCategories:listAllCategories,
+    createCategory:createCategory
 };
