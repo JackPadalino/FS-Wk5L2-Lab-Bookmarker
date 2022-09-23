@@ -2,3 +2,6 @@
 
 - Using sequelize to build database schema
 - Using express to handle routes
+
+#### Next steps
+- Need to finish lab to add 'create' route
