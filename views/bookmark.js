@@ -52,8 +52,7 @@ function bookmarksByCategory(bookmarks,catName){
     <div>
     ${bookmarks.map((bookmark) =>
         `
-        <h2>${bookmark.name}</h2>
-        <a href='${bookmark.url}'><p>${bookmark.url}</p></a>
+        <a href='/bookmarkdetails/${bookmark.id}'><h2>${bookmark.name}</h2></a>
         `
     )}
     </div>
