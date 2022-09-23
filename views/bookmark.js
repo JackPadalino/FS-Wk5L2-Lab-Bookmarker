@@ -9,26 +9,36 @@ function listAllBookmarks(bookmarks,categoryNames){
 </head>
 <body>
     <h1>Bookmarker</h1>
-    <!--<small><a href="/createbookmark">Add new bookmark</a></small>-->
-    <form method="post" action="/bookmarks">
-        <label for="name">Name</label>
-        <input type="text" name="name" />
-        <label for="url">URL</label>
-        <input type="url" name="url" />
-        <label for="category">Category</label>
-        <select id="select" name="category">
-            ${categoryNames.map((categoryName) =>
-                `
-                <option value="${categoryName}">${categoryName}</option>
-                `
-            )}
-        </select>
-        <button type="submit">Submit</button>
-    </form>
+    <!--<Create new bookmark form-->
+    <div>
+        <form method="post" action="/bookmarks">
+            <label for="name">New bookmark</label>
+            <input type="text" name="name" />
+            <label for="url">URL</label>
+            <input type="url" name="url" placeholder="https://www.example.com"/>
+            <label for="category">Category</label>
+            <select id="select" name="category">
+                ${categoryNames.map((categoryName) =>
+                    `
+                    <option value="${categoryName}">${categoryName}</option>
+                    `
+                )}
+            </select>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <!--Create new category form-->
+    <div>
+        <form method="post" action="/categories">
+            <label for="category">New category</label>
+            <input type="text" name="category" />
+            <button type="submit">Submit</button>
+        </form>
+    </div>
     <div>
     ${bookmarks.map((bookmark)=>
         `
-        <p><a href='${bookmark.url}'>${bookmark.name}</a> - ${bookmark.category.name}</h2>
+        <p><a href='${bookmark.url}'>${bookmark.name}</a> - <a href="/categories/${bookmark.category.id}">${bookmark.category.name}</a></p>
         `
     )}
     </div>
@@ -37,7 +47,7 @@ function listAllBookmarks(bookmarks,categoryNames){
 `
 };
 
-function bookmarksByCategory(bookmarks,catName){
+function bookmarksByCategory(bookmarks,category){
     return html`
 <!DOCTYPE html>
 <html>
@@ -45,21 +55,20 @@ function bookmarksByCategory(bookmarks,catName){
     <title>Bookmarker</title>
 </head>
 <body>
-    <h1>${catName}</h1>
+    <h1>${category.name}</h1>
     <div>
-    ${bookmarks.map((bookmark) =>
-        `
-        <a href='/bookmarkdetails/${bookmark.id}'><p>${bookmark.name}</p>
-        `
-    )}
+        ${bookmarks.map((bookmark)=>
+            `
+            <form method="POST" action="/bookmarks/${bookmark.id}?_method=DELETE">
+                <a href='${bookmark.url}'>${bookmark.name}</a>
+                <button type="submit">x</button>
+            </form>
+            ` 
+            )}
     </div>
 </body>
 </html>
 `
-};
-
-function deleteBookmark(){
-    //pass
 };
 
 module.exports = {

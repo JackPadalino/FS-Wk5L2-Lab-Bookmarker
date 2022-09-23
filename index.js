@@ -7,28 +7,15 @@ const {
     listAllBookmarks,bookmarksByCategory
 } = require('./views/bookmark');
 
-// importing category views
-const {
-    listAllCategories,createCategory
-} = require('./views/category');
-
 const express = require("express");
 const app = express();
 
+// methodOverride middleware for overriding POST and GET requests in forms
+const methodOverride = require('method-override')
+app.use(methodOverride('_method'))
+
 // middleware for parsing url-encoded bodies from form submissions
 app.use(express.urlencoded({ extended: false }));
-
-
-/*
-// delete a bookmark
-app.delete('/bookmarks/:id',async(req,res,next)=>{
-    const bookmarkId = req.params.id;
-    const bookmark = await Bookmark.findByPk(bookmarkId);
-    //await bookmark.destroy();
-    res.redirect('/');
-    //res.send('Delete request made!');
-});
-*/
 
 // redirecting to bookmarks route
 app.get("/", (req, res) => {
@@ -65,10 +52,21 @@ app.post("/bookmarks", async (req,res,next)=>{
     res.redirect(`/categories/${category.id}`);
 });
 
-// list all categories route
-app.get("/categories", async (req, res, next) => {
-    const categories = await Category.findAll();
-    res.send(listAllCategories(categories));
+// delete a bookmark
+app.delete('/bookmarks/:id',async(req,res,next)=>{
+    const bookmarkId = req.params.id;
+    const bookmark = await Bookmark.findByPk(bookmarkId);
+    await bookmark.destroy();
+    res.redirect('/');
+    //res.send('Delete request made!');
+});
+
+app.post("/categories",async(req,res,next)=>{
+    const categoryName = req.body.category;
+    await Category.create({
+        name:categoryName
+    })
+    res.redirect('/');
 });
 
 // list all bookmarks by category
@@ -81,24 +79,11 @@ app.get("/categories/:id", async (req,res,next)=>{
             }
         });
         const category = await Category.findByPk(catId);
-        const catName = category.name;
-        res.send(bookmarksByCategory(bookmarks,catName)); 
+        res.send(bookmarksByCategory(bookmarks,category)); 
     }catch(error){
         res.send('Oops! Something went wrong!');
-    }
+    };
 });
-
-app.get("/createcategory", (req, res) => {
-    res.send(createCategory());
-});
-
-app.post("/postcategory",async(req,res,next)=>{
-    const categoryName = req.body.category;
-    await Category.create({
-        name:categoryName
-    })
-    res.redirect('/createbookmark');
-})
 
 const PORT = 3000;
 
