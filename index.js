@@ -42,35 +42,6 @@ app.get('/bookmarkdetails/:id',async(req,res,next)=>{
     res.send(bookmarkDetails(bookmark));
 });
 
-// delete a bookmark
-app.get('/deletebookmark/:id',async(req,res,next)=>{
-    const bookmarkId = req.params.id;
-    const bookmark = await Bookmark.findByPk(bookmarkId);
-    await bookmark.destroy();
-    res.redirect('/');
-});
-
-// list all bookmarks by category
-app.get("/categories/:id", async (req,res,next)=>{
-    try{
-        const catId = req.params.id
-        const bookmarks = await Bookmark.findAll({
-            where:{
-                categoryId:[catId]
-            }
-        });
-        const category = await Category.findOne({
-            where:{
-                id:[catId]
-            }
-        });
-        const catName = category[0].name;
-        res.send(bookmarksByCategory(bookmarks,catName)); 
-    }catch(error){
-        res.send('Oops! Something went wrong!');
-    }
-});
-
 app.get("/createbookmark", async(req, res) => {
     const categories = await Category.findAll();
     res.send(createBookmark(categories));
@@ -96,10 +67,35 @@ app.post("/postbookmark", async (req,res,next)=>{
     res.redirect("/");
 });
 
+// delete a bookmark
+app.get('/deletebookmark/:id',async(req,res,next)=>{
+    const bookmarkId = req.params.id;
+    const bookmark = await Bookmark.findByPk(bookmarkId);
+    await bookmark.destroy();
+    res.redirect('/');
+});
+
 // list all categories route
 app.get("/categories", async (req, res, next) => {
     const categories = await Category.findAll();
     res.send(listAllCategories(categories));
+});
+
+// list all bookmarks by category
+app.get("/categories/:id", async (req,res,next)=>{
+    try{
+        const catId = req.params.id
+        const bookmarks = await Bookmark.findAll({
+            where:{
+                categoryId:[catId]
+            }
+        });
+        const category = await Category.findByPk(catId);
+        const catName = category.name;
+        res.send(bookmarksByCategory(bookmarks,catName)); 
+    }catch(error){
+        res.send('Oops! Something went wrong!');
+    }
 });
 
 app.get("/createcategory", (req, res) => {
