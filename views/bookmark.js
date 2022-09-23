@@ -57,6 +57,7 @@ function bookmarksByCategory(bookmarks,category){
 <body>
     <h1>${category.name}</h1>
     <div>
+        <!--Using the method-override middleware to turn POST request into DELETE request-->
         ${bookmarks.map((bookmark)=>
             `
             <form method="POST" action="/bookmarks/${bookmark.id}?_method=DELETE">
