@@ -5,3 +5,4 @@
 
 #### Next steps
 - Add route to delete a bookmark
+- Separate routes into routes folder
