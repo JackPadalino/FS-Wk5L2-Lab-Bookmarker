@@ -5,5 +5,3 @@
 
 #### Next steps
 - Add route to delete a bookmark
-- Add route to create a new category
-- Add dropdown of all existing categories to form on create page
