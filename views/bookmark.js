@@ -74,7 +74,7 @@ function createBookmark(categories){
             <label for="name">Name</label>
             <input type="text" name="name" />
             <label for="url">URL</label>
-            <input type="text" name="url" />
+            <input type="url" name="url" />
             <label for="category">Category</label>
             <select id="select" name="category">
                 ${categories.map((category) =>
