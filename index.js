@@ -58,26 +58,18 @@ app.post("/postbookmark", async (req,res,next)=>{
     bookURL = req.body.url;
     categoryName = req.body.category;
     // finding the correct category
-    const categories = await Category.findAll({
+    const category = await Category.findOne({
         where:{
             name:categoryName      
         }
     })
-    // checking if the category from the 'create' page form exists
-    if(categories.length > 0){
-        const category = categories[0];
-        // using Sequelize to create a new category
-        await Bookmark.create({
-            name: bookName,
-            url: bookURL,
-            categoryId: category.id
-        });
-        // redirecting back to the home page after creating a new bookmark
-        res.redirect("/");
-    }else{
-        res.send(`Oops! It looks like the category "${categoryName}" doesnt exist!`);
-        console.log(categories);
-    };
+    await Bookmark.create({
+        name: bookName,
+        url: bookURL,
+        categoryId: category.id
+    });
+    // redirecting back to the home page after creating a new bookmark
+    res.redirect("/");
 });
 
 // list all categories route
