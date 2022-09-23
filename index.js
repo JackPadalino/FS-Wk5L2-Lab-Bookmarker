@@ -49,25 +49,18 @@ app.get("/create", (req, res) => {
 app.post("/", async (req,res,next)=>{
     bookName = req.body.name;
     bookURL = req.body.url;
-    catName = req.body.category;
-    /*
-    const category = await Category.findAll({
+    categoryName = req.body.category;
+    const categories = await Category.findAll({
         where:{
-            name:catName      
+            name:categoryName      
         }
     })
+    const category = categories[0];
     await Bookmark.create({
         name: bookName,
         url: bookURL,
         categoryId: category.id
     });
-    */
-    console.log({
-        bookName,
-        bookURL,
-        catName
-    });
-
     res.redirect("/");
 });
 
