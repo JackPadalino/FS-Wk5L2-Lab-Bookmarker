@@ -5,7 +5,7 @@ function listAllBookmarks(bookmarks){
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Bookmarks</title>
+    <title>Bookmarker</title>
 </head>
 <body>
     <h1>All bookmarks</h1>
@@ -13,10 +13,27 @@ function listAllBookmarks(bookmarks){
     <div>
     ${bookmarks.map((bookmark)=>
         `
-        <h2>${bookmark.name} - ${bookmark.category.name}</h2>
-        <a href='${bookmark.url}'><p>${bookmark.url}</p></a>
+        <h2><a href='/bookmarkdetails/${bookmark.id}'>${bookmark.name}</a></h2>
         `
     )}
+    </div>
+</body>
+</html>
+`
+};
+
+function bookmarkDetails(bookmark){
+    return html`
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bookmarker</title>
+</head>
+<body>
+    <a href='${bookmark.url}'><h1>${bookmark.name}</h1></a>
+    <div>
+        <p>${bookmark.category.name}</p>
+        <small><a href='/deletebookmark/${bookmark.id}'>delete bookmark</a></small>
     </div>
 </body>
 </html>
@@ -28,7 +45,7 @@ function bookmarksByCategory(bookmarks,catName){
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Bookmarks</title>
+    <title>Bookmarker</title>
 </head>
 <body>
     <h1>${catName}</h1>
@@ -50,6 +67,7 @@ function createBookmark(categories){
 <!DOCTYPE html>
 <html>
 <head>
+    <title>Bookmarker</title>
 </head>
 <body>
     <div>
@@ -80,6 +98,7 @@ function deleteBookmark(){
 
 module.exports = {
     listAllBookmarks:listAllBookmarks,
+    bookmarkDetails:bookmarkDetails,
     bookmarksByCategory:bookmarksByCategory,
     createBookmark:createBookmark
 };

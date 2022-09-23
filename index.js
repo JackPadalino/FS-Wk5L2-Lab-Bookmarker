@@ -4,16 +4,13 @@ const {
 
 // importing bookmark views
 const {
-    listAllBookmarks,bookmarksByCategory,createBookmark
+    listAllBookmarks,bookmarkDetails,bookmarksByCategory,createBookmark
 } = require('./views/bookmark');
 
 // importing category views
 const {
     listAllCategories,createCategory
 } = require('./views/category');
-
-//const categoryViews = require('./views/category.js');
-//const bookmarkViews = require('./views/bookmark.js')
 
 const express = require("express");
 const app = express();
@@ -28,11 +25,29 @@ app.get("/", (req, res) => {
 
 // list all bookmarks route
 app.get("/bookmarks", async (req, res, next) => {
-    const bookmarks = await Bookmark.findAll({
-        include:[Category]
-    });
+    const bookmarks = await Bookmark.findAll();
     
     res.send(listAllBookmarks(bookmarks));
+});
+
+// get details of a single bookmark
+app.get('/bookmarkdetails/:id',async(req,res,next)=>{
+    const bookmarkId = req.params.id;
+    const bookmark = await Bookmark.findOne({
+        where:{
+            id:bookmarkId
+        },
+        include:Category
+    });
+    res.send(bookmarkDetails(bookmark));
+});
+
+// delete a bookmark
+app.get('/deletebookmark/:id',async(req,res,next)=>{
+    const bookmarkId = req.params.id;
+    const bookmark = await Bookmark.findByPk(bookmarkId);
+    await bookmark.destroy();
+    res.redirect('/');
 });
 
 // list all bookmarks by category
@@ -44,7 +59,7 @@ app.get("/categories/:id", async (req,res,next)=>{
                 categoryId:[catId]
             }
         });
-        const category = await Category.findAll({
+        const category = await Category.findOne({
             where:{
                 id:[catId]
             }
