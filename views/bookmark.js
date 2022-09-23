@@ -8,10 +8,12 @@ function listAllBookmarks(bookmarks){
     <title>Bookmarks</title>
 </head>
 <body>
+    <h1>All bookmarks</h1>
+    <small><a href="/create">Add new bookmark</a></small>
     <div>
     ${bookmarks.map((bookmark) =>
         `
-        <h1>${bookmark.name} - ${bookmark.category.name}</h1>
+        <h2>${bookmark.name} - ${bookmark.category.name}</h2>
         <a href='${bookmark.url}'><p>${bookmark.url}</p></a>
         `
         )}
@@ -51,7 +53,7 @@ function createBookmark(){
 </head>
 <body>
     <div>
-        <form method="post" action="/">
+        <form method="post" action="/post">
             <label for="name">Name</label>
             <input type="text" name="name" />
             <label for="url">URL</label>
