@@ -4,5 +4,4 @@
 - Using express to handle routes
 
 #### Next steps
-- Add route to delete a bookmark
 - Separate routes into routes folder
