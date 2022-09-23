@@ -2,10 +2,18 @@ const {
     Category, Bookmark
   } = require('./db');
 
-// importing the views that deliver HTML
-const homeViews = require('./views/home.js');
-const categoryViews = require('./views/category.js');
-const bookmarkViews = require('./views/bookmark.js')
+// importing bookmark views
+const {
+    listAllBookmarks,bookmarksByCategory,createBookmark
+} = require('./views/bookmark');
+
+// importing category views
+const {
+    listAllCategories,createCategory
+} = require('./views/category');
+
+//const categoryViews = require('./views/category.js');
+//const bookmarkViews = require('./views/bookmark.js')
 
 const express = require("express");
 const app = express();
@@ -13,6 +21,7 @@ const app = express();
 // middleware for parsing url-encoded bodies from form submissions
 app.use(express.urlencoded({ extended: false }));
 
+// redirecting to bookmarks route
 app.get("/", (req, res) => {
     res.redirect("/bookmarks");
   })
@@ -23,7 +32,7 @@ app.get("/bookmarks", async (req, res, next) => {
         include:[Category]
     });
     
-    res.send(bookmarkViews.listAllBookmarks(bookmarks));
+    res.send(listAllBookmarks(bookmarks));
 });
 
 // list all bookmarks by category
@@ -41,7 +50,7 @@ app.get("/categories/:id", async (req,res,next)=>{
             }
         });
         const catName = category[0].name;
-        res.send(bookmarkViews.bookmarksByCategory(bookmarks,catName)); 
+        res.send(bookmarksByCategory(bookmarks,catName)); 
     }catch(error){
         res.send('Oops! Something went wrong!');
     }
@@ -49,7 +58,7 @@ app.get("/categories/:id", async (req,res,next)=>{
 
 app.get("/createbookmark", async(req, res) => {
     const categories = await Category.findAll();
-    res.send(bookmarkViews.createBookmark(categories));
+    res.send(createBookmark(categories));
 });
 
 app.post("/postbookmark", async (req,res,next)=>{
@@ -75,11 +84,11 @@ app.post("/postbookmark", async (req,res,next)=>{
 // list all categories route
 app.get("/categories", async (req, res, next) => {
     const categories = await Category.findAll();
-    res.send(categoryViews.listAllCategories(categories));
+    res.send(listAllCategories(categories));
 });
 
 app.get("/createcategory", (req, res) => {
-    res.send(categoryViews.createCategory());
+    res.send(createCategory());
 });
 
 app.post("/postcategory",async(req,res,next)=>{
