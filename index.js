@@ -4,7 +4,7 @@ const {
 
 // importing bookmark views
 const {
-    listAllBookmarks,bookmarkDetails,bookmarksByCategory,createBookmark
+    listAllBookmarks,bookmarksByCategory
 } = require('./views/bookmark');
 
 // importing category views
@@ -18,6 +18,18 @@ const app = express();
 // middleware for parsing url-encoded bodies from form submissions
 app.use(express.urlencoded({ extended: false }));
 
+
+/*
+// delete a bookmark
+app.delete('/bookmarks/:id',async(req,res,next)=>{
+    const bookmarkId = req.params.id;
+    const bookmark = await Bookmark.findByPk(bookmarkId);
+    //await bookmark.destroy();
+    res.redirect('/');
+    //res.send('Delete request made!');
+});
+*/
+
 // redirecting to bookmarks route
 app.get("/", (req, res) => {
     res.redirect("/bookmarks");
@@ -25,29 +37,15 @@ app.get("/", (req, res) => {
 
 // list all bookmarks route
 app.get("/bookmarks", async (req, res, next) => {
-    const bookmarks = await Bookmark.findAll();
-    
-    res.send(listAllBookmarks(bookmarks));
-});
-
-// get details of a single bookmark
-app.get('/bookmarkdetails/:id',async(req,res,next)=>{
-    const bookmarkId = req.params.id;
-    const bookmark = await Bookmark.findOne({
-        where:{
-            id:bookmarkId
-        },
+    const bookmarks = await Bookmark.findAll({
         include:Category
     });
-    res.send(bookmarkDetails(bookmark));
-});
-
-app.get("/createbookmark", async(req, res) => {
     const categories = await Category.findAll();
-    res.send(createBookmark(categories));
+    const categoryNames = categories.map(category=>category.name);
+    res.send(listAllBookmarks(bookmarks,categoryNames));
 });
 
-app.post("/postbookmark", async (req,res,next)=>{
+app.post("/bookmarks", async (req,res,next)=>{
     // getting the data from the form on the 'create' page
     bookName = req.body.name;
     bookURL = req.body.url;
@@ -64,15 +62,7 @@ app.post("/postbookmark", async (req,res,next)=>{
         categoryId: category.id
     });
     // redirecting back to the home page after creating a new bookmark
-    res.redirect("/");
-});
-
-// delete a bookmark
-app.get('/deletebookmark/:id',async(req,res,next)=>{
-    const bookmarkId = req.params.id;
-    const bookmark = await Bookmark.findByPk(bookmarkId);
-    await bookmark.destroy();
-    res.redirect('/');
+    res.redirect(`/categories/${category.id}`);
 });
 
 // list all categories route
