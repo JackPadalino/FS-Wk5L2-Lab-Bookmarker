@@ -42,11 +42,11 @@ app.get("/categories/:id", async (req,res,next)=>{
     res.send(bookmarkViews.bookmarksByCategory(bookmarks,catName)); 
 });
 
-app.get("/create", (req, res) => {
+app.get("/createbookmark", (req, res) => {
     res.send(bookmarkViews.createBookmark());
 });
 
-app.post("/post", async (req,res,next)=>{
+app.post("/postbookmark", async (req,res,next)=>{
     // getting the data from the form on the 'create' page
     bookName = req.body.name;
     bookURL = req.body.url;
@@ -72,6 +72,16 @@ app.post("/post", async (req,res,next)=>{
         res.send(`Oops! It looks like the category "${categoryName}" doesnt exist!`);
         console.log(categories);
     };
+});
+
+// list all categories route
+app.get("/categories", async (req, res, next) => {
+    const categories = await Category.findAll();
+    res.send(categoryViews.listAllCategories(categories));
+});
+
+app.get("/createcategory", (req, res) => {
+    res.send(categoryViews.createCategory());
 });
 
 const PORT = 3000;

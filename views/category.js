@@ -1,6 +1,6 @@
 const html  = require('html-template-tag');
 
-function categoryHTML(categories){
+function listAllCategories(categories){
     return html`
     <!DOCTYPE html>
     <html>
@@ -26,5 +26,5 @@ function categoryHTML(categories){
 };
 
 module.exports = {
-    categoryHTML:categoryHTML
+    listAllCategories:listAllCategories
 };
