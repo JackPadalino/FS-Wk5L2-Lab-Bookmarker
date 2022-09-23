@@ -27,19 +27,23 @@ app.get("/bookmarks", async (req, res, next) => {
 
 // list all bookmarks by category
 app.get("/categories/:id", async (req,res,next)=>{
-    const catId = req.params.id
-    const bookmarks = await Bookmark.findAll({
-        where:{
-            categoryId:[catId]
-        }
-    });
-    const category = await Category.findAll({
-        where:{
-            id:[catId]
-        }
-    });
-    const catName = category[0].name;
-    res.send(bookmarkViews.bookmarksByCategory(bookmarks,catName)); 
+    try{
+        const catId = req.params.id
+        const bookmarks = await Bookmark.findAll({
+            where:{
+                categoryId:[catId]
+            }
+        });
+        const category = await Category.findAll({
+            where:{
+                id:[catId]
+            }
+        });
+        const catName = category[0].name;
+        res.send(bookmarkViews.bookmarksByCategory(bookmarks,catName)); 
+    }catch(error){
+        res.send('Oops! Something went wrong!');
+    }
 });
 
 app.get("/createbookmark", (req, res) => {
