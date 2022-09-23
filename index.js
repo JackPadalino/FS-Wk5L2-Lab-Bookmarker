@@ -46,21 +46,25 @@ app.get("/create", (req, res) => {
     res.send(bookmarkViews.createBookmark());
 });
 
-app.post("/", async (req,res,next)=>{
+app.post("/post", async (req,res,next)=>{
+    // getting the data from the form on the 'create' page
     bookName = req.body.name;
     bookURL = req.body.url;
     categoryName = req.body.category;
+    // finding the correct category
     const categories = await Category.findAll({
         where:{
             name:categoryName      
         }
     })
     const category = categories[0];
+    // using Sequelize to create a new category
     await Bookmark.create({
         name: bookName,
         url: bookURL,
         categoryId: category.id
     });
+    // redirecting back to the home page after creating a new bookmark
     res.redirect("/");
 });
 
