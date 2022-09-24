@@ -36,7 +36,7 @@ router.post("/", async (req,res)=>{
         url: bookURL,
         categoryId: category.id
     });
-    // redirecting back to the home page after creating a new bookmark
+    // redirecting to category page to show the new bookmark has been added
     res.redirect(`/categories/${category.id}`);
 });
 
