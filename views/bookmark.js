@@ -17,6 +17,7 @@ function listAllBookmarks(bookmarks,categoryNames){
             <label for="url">URL</label>
             <input type="url" name="url" placeholder="https://www.example.com"/>
             <label for="category">Category</label>
+            <!--dropdown menu for all categories-->
             <select id="select" name="category">
                 ${categoryNames.map((categoryName) =>
                     `
