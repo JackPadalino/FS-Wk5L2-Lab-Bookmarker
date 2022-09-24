@@ -31,6 +31,8 @@ router.post("/", async (req,res)=>{
             name:categoryName      
         }
     })
+    // creating the new Bookmark instance using the form data and the
+    // category object we just found
     await Bookmark.create({
         name: bookName,
         url: bookURL,
