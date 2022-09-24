@@ -4,4 +4,3 @@
 - Using express to handle routes
 
 #### Next steps
-- Separate routes into routes folder
