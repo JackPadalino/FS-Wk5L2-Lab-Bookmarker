@@ -22,5 +22,5 @@ app.get("/", (req, res) => {
 const PORT = 3000;
 
 app.listen(PORT, (test) => {
-  console.log(`Connected to: https://localhost:${PORT}`,)
+  console.log(`Connected to: https://localhost:${PORT}`)
 });
